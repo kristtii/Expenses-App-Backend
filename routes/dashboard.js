@@ -53,22 +53,14 @@ router.post("/signin", async (req, res) => {
 	try {
 		let token;
 		if (!email || !password) {
-			return res.status(400).json({ error: "plz fill the filled" });
+			return res.status(400).json({ error: "Please fill the required fields" });
 		}
 		const emailExist = await Users.findOne({ email: email });
-		// console.log(emailExist)
 		if (emailExist) {
 			const passMatch = await bcrypt.compare(
 				password,
 				emailExist.password
 			);
-			// token = await emailExist.generateAuthToken();
-			// console.log(token)
-			//  res.status(200).json();
-			// res.cookie("jwtoken", token, {
-			//            expires: new Date(Date.now() + 9000000),
-			//          httpOnly: true,
-			//         });
 			if (!passMatch) {
 				res.status(400).json({ error: "Password is not correct" });
 			} else {
@@ -89,9 +81,7 @@ router.post("/signin", async (req, res) => {
 router.put("/updateuser/:id", upload.single("image"), async (req, res) => {
 	try {
 		const { fname, lname, email, password, cpassword } = req.body;
-		let image = req.body.image; // Default to the existing image
-
-		// Check if a new image is uploaded
+		let image = req.body.image; 
 		if (req.file) {
 			image = req.file.filename;
 		}

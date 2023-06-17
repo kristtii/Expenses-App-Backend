@@ -3,13 +3,12 @@ const router = express.Router();
 const Expenses = require("../model/Expenses");
 const Users = require("../model/User");
 
-// Create New Blog
+// Create New Expense
 router.post("/createExpense", async (req, res) => {
 	const { title, amount, date, userID } = req.body;
 	try {
 		const expense = new Expenses({ userID, title, amount, date });
 		const saveExpense = await expense.save();
-		//res.json(saveblog)
 		return res.status(200).json({ message: "Expense Saved" });
 	} catch (error) {
 		console.log(error);
@@ -26,6 +25,7 @@ router.get("/showExpenses/:id", async (req, res) => {
 	}
 });
 
+// Delete Expenses
 router.delete("/deleteExpense/:id", async (req, res) => {
 	try {
 		const expenseId = req.params.id;
